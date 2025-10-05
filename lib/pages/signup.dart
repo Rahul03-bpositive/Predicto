@@ -1,8 +1,24 @@
-import 'package:app/pages/verification.dart';
+import 'package:app/pages/PhoneAuthentication.dart';
+// import 'package:app/pages/verification.dart';
 import 'package:flutter/material.dart';
 
-class SignUp extends StatelessWidget {
+class SignUp extends StatefulWidget {
   const SignUp({super.key});
+
+  @override
+  State<SignUp> createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
+  // ✅ Initialize controller
+  final TextEditingController phoneController = TextEditingController();
+
+  @override
+  void dispose() {
+    // ✅ Dispose controller to avoid memory leaks
+    phoneController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +44,7 @@ class SignUp extends StatelessWidget {
                   const Text("Login or Signup", style: TextStyle(fontSize: 15)),
                   const SizedBox(height: 15),
                   TextField(
+                    controller: phoneController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -39,15 +56,15 @@ class SignUp extends StatelessWidget {
                   const SizedBox(height: 15),
                   TextButton(
                     style: ButtonStyle(
-                      minimumSize: MaterialStateProperty.all(
+                      minimumSize: WidgetStateProperty.all(
                         Size(MediaQuery.of(context).size.width, 50),
                       ),
-                      shape: MaterialStateProperty.all(
+                      shape: WidgetStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      backgroundColor: MaterialStateProperty.all(
+                      backgroundColor: WidgetStateProperty.all(
                         const Color(0xffb0b0b0),
                       ),
                     ),
@@ -55,7 +72,11 @@ class SignUp extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Verification(),
+                          builder:
+                              (context) => PhoneAuthentication(
+                                phoneNumber:
+                                    '+91${phoneController.text.trim()}',
+                              ),
                         ),
                       );
                     },

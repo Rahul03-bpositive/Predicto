@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SubmitBottomSheet extends StatelessWidget {
+  const SubmitBottomSheet({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(

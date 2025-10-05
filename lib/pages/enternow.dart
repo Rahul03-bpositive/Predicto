@@ -126,7 +126,7 @@ class _EnternowState extends State<Enternow> {
                     ),
                   ),
                 );
-              }).toList(),
+              }),
 
               SizedBox(height: 20),
               Container(
@@ -335,7 +335,7 @@ class _EnternowState extends State<Enternow> {
                     ),
                   ),
                 );
-              }).toList(),
+              }),
 
               SizedBox(height: 10),
               Container(

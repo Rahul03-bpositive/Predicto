@@ -182,9 +182,7 @@ class _ForecastCardState extends State<Forecastcard> {
                                 ),
                               ),
                             ),
-                          Center(
-                            child: Container(width: 300, child: Divider()),
-                          ),
+                          Center(child: SizedBox(width: 300, child: Divider())),
                           // Bottom row
                           Padding(
                             padding: const EdgeInsets.symmetric(
@@ -325,7 +323,7 @@ class _ForecastCardState extends State<Forecastcard> {
                             ),
                           ),
                           if (!isLast)
-                            Container(
+                            SizedBox(
                               width: 350,
                               child: Divider(
                                 height: 24,
@@ -339,11 +337,7 @@ class _ForecastCardState extends State<Forecastcard> {
                       );
                     }).toList(),
               ),
-              Container(
-                width: 350,
-
-                child: Divider(color: Colors.grey.shade300),
-              ),
+              SizedBox(width: 350, child: Divider(color: Colors.grey.shade300)),
 
               // SizedBox(height: 30),
               Container(

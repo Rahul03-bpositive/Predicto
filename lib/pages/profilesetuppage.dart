@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:app/pages/homepge.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
+import '../services/api_service.dart';
 
 class ProfileSetup extends StatefulWidget {
   const ProfileSetup({super.key});
@@ -22,7 +27,32 @@ class _ProfileSetupState extends State<ProfileSetup> {
     super.dispose();
   }
 
-  void _saveProfile() {
+  // Future<String?> getIdToken() async {
+  //   User? user = FirebaseAuth.instance.currentUser;
+  //   return user != null ? await user.getIdToken() : null;
+  // }
+
+  // Future<bool> sendProfileData(
+  //   String name,
+  //   String email,
+  //   String age,
+  //   String idToken,
+  // ) async {
+  //   final url = 'http://192.168.29.191:8000/api/profile';
+
+  //   final response = await http.post(
+  //     Uri.parse(url),
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Authorization': 'Bearer $idToken',
+  //     },
+  //     body: jsonEncode({'name': name, 'email': email, 'age': age}),
+  //   );
+
+  //   return response.statusCode == 200;
+  // }
+
+  void _saveProfile() async {
     String name = nameController.text.trim();
     String email = emailController.text.trim();
     String age = ageController.text.trim();
@@ -34,16 +64,33 @@ class _ProfileSetupState extends State<ProfileSetup> {
       return;
     }
 
-    // Here you can save profile to Firebase / local DB
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text("Profile saved for $name")));
+    String? idToken = await AuthService.getIdToken();
 
-    // Example: Navigate to home/dashboard
-    // Navigator.pushReplacement(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => HomePage()),
-    // );
+    if (idToken == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Authentication error")));
+      return;
+    }
+
+    bool success = await ApiService.sendProfileData(name, email, age, idToken);
+
+    if (success) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Profile saved!")));
+      // Navigate to home/dashboard
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Homepage(),
+        ), // Your widget class name here
+      );
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Failed to save profile")));
+    }
   }
 
   @override
